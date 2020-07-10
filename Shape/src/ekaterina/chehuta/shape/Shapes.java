@@ -1,6 +1,6 @@
 package ekaterina.chehuta.shape;
 
-public interface Shapes {
+interface Shapes {
     double getWidth();
     double getHeight();
     double getArea();

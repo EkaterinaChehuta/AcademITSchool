@@ -40,4 +40,13 @@ public class Rectangle implements Shapes {
     public double getPerimeter() {
         return (getHeight() + getWidth()) * 2;
     }
+
+    @Override
+    public String toString() {
+        return "Rectangle: " +
+                "\nWidth = " + getWidth() +
+                "\nHeight = " + getHeight() +
+                "\nArea = " + getArea() +
+                "\nPerimeter = " + getPerimeter();
+    }
 }

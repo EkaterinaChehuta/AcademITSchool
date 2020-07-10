@@ -30,4 +30,13 @@ public class Square implements Shapes {
     public double getPerimeter() {
         return (getHeight() + getWidth()) * 2;
     }
+
+    @Override
+    public String toString() {
+        return "Square: " +
+                "\nWidth = " + getWidth() +
+                "\nHeight = " + getHeight() +
+                "\nArea = " + getArea() +
+                "\nPerimeter = " + getPerimeter();
+    }
 }

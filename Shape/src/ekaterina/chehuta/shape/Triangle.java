@@ -84,4 +84,13 @@ public class Triangle implements Shapes {
 
         return sideALength + sideBLength + sideCLength;
     }
+
+    @Override
+    public String toString() {
+        return "Triangle: " +
+                "\nWidth = " + getWidth() +
+                "\nHeight = " + getHeight() +
+                "\nArea = " + getArea() +
+                "\nPerimeter = " + getPerimeter();
+    }
 }
