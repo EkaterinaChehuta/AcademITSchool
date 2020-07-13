@@ -1,42 +1,55 @@
 package ekaterina.chehuta.shape;
 
-public class Square implements Shapes {
-    private double sideLong;
+public class Square implements Shape {
+    private double sideLength;
 
-    public Square(double sideLong) {
-        this.sideLong = sideLong;
+    public Square(double sideLength) {
+        this.sideLength = sideLength;
     }
 
-    public double getSideLong() {
-        return sideLong;
+    public double getSideLength() {
+        return sideLength;
     }
 
-    public void setSideLong(double sideLong) {
-        this.sideLong = sideLong;
+    public void setSideLength(double sideLength) {
+        this.sideLength = sideLength;
     }
 
+    @Override
     public double getWidth() {
-        return sideLong;
+        return sideLength;
     }
 
+    @Override
     public double getHeight() {
-        return sideLong;
+        return sideLength;
     }
 
+    @Override
     public double getArea() {
-        return getHeight() * getWidth();
+        return Math.pow(sideLength, 2);
     }
 
+    @Override
     public double getPerimeter() {
-        return (getHeight() + getWidth()) * 2;
+        return sideLength * 4;
     }
 
     @Override
     public String toString() {
-        return "Square: " +
-                "\nWidth = " + getWidth() +
-                "\nHeight = " + getHeight() +
-                "\nArea = " + getArea() +
-                "\nPerimeter = " + getPerimeter();
+        return String.format("Square.%nSideLength = %f%nArea = %f%nPerimeter = %f", getSideLength(), getArea(), getPerimeter());
+    }
+
+    @Override
+    public boolean equals(Object shape) {
+        if (this == shape) return true;
+        if (shape == null || getClass() != shape.getClass()) return false;
+        Square square = (Square) shape;
+        return getSideLength() == square.getSideLength();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) getSideLength();
     }
 }

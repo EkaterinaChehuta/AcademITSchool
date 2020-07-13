@@ -1,6 +1,6 @@
 package ekaterina.chehuta.shape;
 
-public class Circle implements Shapes {
+public class Circle implements Shape {
     private double radius;
 
     public Circle(double radius) {
@@ -15,28 +15,41 @@ public class Circle implements Shapes {
         this.radius = radius;
     }
 
+    @Override
     public double getWidth() {
         return radius * 2;
     }
 
+    @Override
     public double getHeight() {
         return radius * 2;
     }
 
+    @Override
     public double getArea() {
         return Math.PI * Math.pow(radius, 2);
     }
 
+    @Override
     public double getPerimeter() {
         return 2 * Math.PI * radius;
     }
 
     @Override
     public String toString() {
-        return "Circle: " +
-                "\nWidth = " + getWidth() +
-                "\nHeight = " + getHeight() +
-                "\nArea = " + getArea() +
-                "\nPerimeter = " + getPerimeter();
+        return String.format("Circle.%nRadius = %f%nArea = %f%nPerimeter = %f", getRadius(), getArea(), getPerimeter());
+    }
+
+    @Override
+    public boolean equals(Object shape) {
+        if (this == shape) return true;
+        if (shape == null || getClass() != shape.getClass()) return false;
+        Circle circle = (Circle) shape;
+        return getRadius() == circle.getRadius();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) getRadius();
     }
 }

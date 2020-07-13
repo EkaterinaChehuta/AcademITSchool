@@ -1,6 +1,6 @@
 package ekaterina.chehuta.shape;
 
-public class Triangle implements Shapes {
+public class Triangle implements Shape {
     private double x1;
     private double y1;
     private double x2;
@@ -65,32 +65,53 @@ public class Triangle implements Shapes {
         this.y3 = y3;
     }
 
+    public double getSideLength(double x1, double x2, double y1, double y2) {
+        return Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2));
+    }
+
+    @Override
     public double getWidth() {
-        return Math.max(x1, Math.max(x2, x3)) - Math.min(x1, Math.max(x2, x3));
+        return getSideLength(x1, x2, y1, y2);
     }
 
+    @Override
     public double getHeight() {
-        return Math.max(y1, Math.max(y2, y3)) - Math.min(y1, Math.max(y2, y3));
+        return 2 * getArea() / getSideLength(x1, x2, y1, y2);
     }
 
+    @Override
     public double getArea() {
-        return 0.5 * getHeight() * getWidth();
+        return 0.25 * Math.sqrt((getSideLength(x1, x2, y1, y2) + getSideLength(x2, x3, y2, y3) + getSideLength(x1, x3, y1, y3)) *
+                (getSideLength(x2, x3, y2, y3) + getSideLength(x1, x3, y1, y3) - getSideLength(x1, x2, y1, y2)) *
+                (getSideLength(x1, x2, y1, y2) + getSideLength(x1, x3, y1, y3) - getSideLength(x2, x3, y2, y3)) *
+                (getSideLength(x1, x2, y1, y2) + getSideLength(x2, x3, y2, y3) - getSideLength(x1, x3, y1, y3)));
     }
 
+    @Override
     public double getPerimeter() {
-        double sideALength = Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
-        double sideBLength = Math.sqrt(Math.pow((x3 - x2), 2) + Math.pow((y3 - y2), 2));
-        double sideCLength = Math.sqrt(Math.pow((x3 - x1), 2) + Math.pow((y3 - y1), 2));
-
-        return sideALength + sideBLength + sideCLength;
+        return getSideLength(x1, x2, y1, y2) + getSideLength(x2, x3, y2, y3) + getSideLength(x1, x3, y1, y3);
     }
 
     @Override
     public String toString() {
-        return "Triangle: " +
-                "\nWidth = " + getWidth() +
-                "\nHeight = " + getHeight() +
-                "\nArea = " + getArea() +
-                "\nPerimeter = " + getPerimeter();
+        return String.format("Triangle.%nPointCoordinatesOne = (%f, %f)%nPointCoordinatesTwo = (%f, %f)%nPointCoordinatesTree = (%f, %f)%n" +
+                "SideALength = %f%nSideBLength = %f%nSideCLength = %f%nWidth = %f%nHeight = %f%nArea = %f%nPerimeter = %f",
+                x1 ,y1, x2, y2, x3, y3, getSideLength(x1, x2, y1, y2), getSideLength(x2, x3, y2, y3), getSideLength(x1, x3, y1, y3),
+                getWidth(),getHeight(), getArea(), getPerimeter());
+    }
+
+    @Override
+    public boolean equals(Object shape) {
+        if (this == shape) return true;
+        if (shape == null || getClass() != shape.getClass()) return false;
+        Triangle triangle = (Triangle) shape;
+        return getSideLength(x1, x2, y1, y2) == triangle.getSideLength(x1, x2, y1, y2) &&
+                getSideLength(x2, x3, y2, y3) == triangle.getSideLength(x2, x3, y2, y3) &&
+                getSideLength(x1, x3, y1, y3) == triangle.getSideLength(x1, x3, y1, y3);
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getSideLength(x1, x2, y1, y2) + getSideLength(x2, x3, y2, y3) + getSideLength(x1, x3, y1, y3));
     }
 }

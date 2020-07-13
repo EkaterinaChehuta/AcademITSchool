@@ -1,52 +1,58 @@
 package ekaterina.chehuta.shape;
 
-public class Rectangle implements Shapes {
-    private double sideALong;
-    private double sideBLong;
+public class Rectangle implements Shape {
+    private double width;
+    private double height;
 
-    public Rectangle(double sideALong, double sideBLong) {
-        this.sideALong = sideALong;
-        this.sideBLong = sideBLong;
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
     }
 
-    public double getSideALong() {
-        return sideALong;
-    }
-
-    public void setSideALong(double sideALong) {
-        this.sideALong = sideALong;
-    }
-
-    public double getSideBLong() {
-        return sideBLong;
-    }
-
-    public void setSideBLong(double sideBLong) {
-        this.sideBLong = sideBLong;
-    }
-
+    @Override
     public double getWidth() {
-        return sideALong;
+        return width;
     }
 
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    @Override
     public double getHeight() {
-        return sideBLong;
+        return height;
     }
 
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    @Override
     public double getArea() {
-        return getHeight() * getWidth();
+        return width * height;
     }
 
+    @Override
     public double getPerimeter() {
-        return (getHeight() + getWidth()) * 2;
+        return (width + height) * 2;
     }
 
     @Override
     public String toString() {
-        return "Rectangle: " +
-                "\nWidth = " + getWidth() +
-                "\nHeight = " + getHeight() +
-                "\nArea = " + getArea() +
-                "\nPerimeter = " + getPerimeter();
+        return String.format("Rectangle.%nWidth = %f%nHeight = %f%nArea = %f%nPerimeter = %f", getWidth(), getHeight(), getArea(), getPerimeter());
+    }
+
+    @Override
+    public boolean equals(Object shape) {
+        if (this == shape) return true;
+        if (shape == null || getClass() != shape.getClass()) return false;
+        Rectangle rectangle = (Rectangle) shape;
+        return getWidth() == rectangle.getWidth() &&
+                getHeight() == rectangle.getHeight();
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (getWidth() + getHeight());
     }
 }
