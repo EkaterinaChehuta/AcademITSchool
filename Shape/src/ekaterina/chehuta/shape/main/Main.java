@@ -34,7 +34,7 @@ public class Main {
         System.out.println(circle1.equals(circle2));
         System.out.println(circle1.hashCode());
         System.out.println(square.hashCode());
-        System.out.println(circle1.equals(square));
+        //System.out.println(circle1.equals(square));
         System.out.println(triangle1.hashCode());
         System.out.println(triangle2.hashCode());
         System.out.println(triangle1.equals(triangle2));
