@@ -37,15 +37,22 @@ public class Square implements Shape {
 
     @Override
     public String toString() {
-        return String.format("Square.%nSideLength = %f%nArea = %f%nPerimeter = %f", getSideLength(), getArea(), getPerimeter());
+        return String.format("Square.%nSideLength = %f%nArea = %f%nPerimeter = %f", sideLength, getArea(), getPerimeter());
     }
 
     @Override
     public boolean equals(Object shape) {
-        if (this == shape) return true;
-        if (shape == null || getClass() != shape.getClass()) return false;
+        if (this == shape) {
+            return true;
+        }
+
+        if (shape == null || getClass() != shape.getClass()) {
+            return false;
+        }
+
         Square square = (Square) shape;
-        return getSideLength() == square.getSideLength();
+
+        return sideLength == square.sideLength;
     }
 
     @Override

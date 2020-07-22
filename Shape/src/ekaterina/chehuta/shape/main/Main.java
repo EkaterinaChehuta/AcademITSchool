@@ -18,8 +18,8 @@ public class Main {
         shapes.add(circle2);
         Square square = new Square(4);
         shapes.add(square);
-        Triangle triangle1 =new Triangle(2,5,8,20,49,7);
-        Triangle triangle2 =new Triangle(-2,-5,-8,-20,-49,-7);
+        Triangle triangle1 = new Triangle(2, 5, 8, 20, 49, 7);
+        Triangle triangle2 = new Triangle(-2, -5, -8, -20, -49, -7);
 
         shapes.sort(new AreaComparator());
         System.out.println("Фигура с максимальной площадью: " + shapes.get(0));
@@ -34,7 +34,7 @@ public class Main {
         System.out.println(circle1.equals(circle2));
         System.out.println(circle1.hashCode());
         System.out.println(square.hashCode());
-        //System.out.println(circle1.equals(square));
+        System.out.println(circle1.equals(square));
         System.out.println(triangle1.hashCode());
         System.out.println(triangle2.hashCode());
         System.out.println(triangle1.equals(triangle2));

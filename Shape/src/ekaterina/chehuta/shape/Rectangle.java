@@ -39,16 +39,23 @@ public class Rectangle implements Shape {
 
     @Override
     public String toString() {
-        return String.format("Rectangle.%nWidth = %f%nHeight = %f%nArea = %f%nPerimeter = %f", getWidth(), getHeight(), getArea(), getPerimeter());
+        return String.format("Rectangle.%nWidth = %f%nHeight = %f%nArea = %f%nPerimeter = %f", width, height, getArea(), getPerimeter());
     }
 
     @Override
     public boolean equals(Object shape) {
-        if (this == shape) return true;
-        if (shape == null || getClass() != shape.getClass()) return false;
+        if (this == shape) {
+            return true;
+        }
+
+        if (shape == null || getClass() != shape.getClass()) {
+            return false;
+        }
+
         Rectangle rectangle = (Rectangle) shape;
-        return getWidth() == rectangle.getWidth() &&
-                getHeight() == rectangle.getHeight();
+
+        return width == rectangle.width &&
+                height == rectangle.height;
     }
 
     @Override

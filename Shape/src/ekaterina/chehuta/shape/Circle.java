@@ -37,15 +37,22 @@ public class Circle implements Shape {
 
     @Override
     public String toString() {
-        return String.format("Circle.%nRadius = %f%nArea = %f%nPerimeter = %f", getRadius(), getArea(), getPerimeter());
+        return String.format("Circle.%nRadius = %f%nArea = %f%nPerimeter = %f", radius, getArea(), getPerimeter());
     }
 
     @Override
     public boolean equals(Object shape) {
-        if (this == shape) return true;
-        if (shape == null || getClass() != shape.getClass()) return false;
+        if (this == shape) {
+            return true;
+        }
+
+        if (shape == null || getClass() != shape.getClass()) {
+            return false;
+        }
+
         Circle circle = (Circle) shape;
-        return getRadius() == circle.getRadius();
+
+        return radius == circle.radius;
     }
 
     @Override
