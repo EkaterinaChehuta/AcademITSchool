@@ -32,49 +32,50 @@ public class Range {
     public boolean isInside(double number) {
         return number >= from && number <= to;
     }
-
-    @Override
+    
     public String toString() {
-        return from + ", " + to;
+        return "[" + from + ", " + to + "]";
     }
 
     // Получение интервала-пересечения двух интервалов.
-    public double[] getArraysIntersection(Range range) {
-        double From = Math.max(range.getFrom(), this.getFrom());
-        double To = Math.min(range.getTo(), this.getTo());
+    public Range[] getIntersection(Range range) {
+        double from = Math.max(range.from, this.from);
+        double to = Math.min(range.to, this.to);
 
-        if (From >= To) {
+        if (from >= to) {
             return null;
         }
-        return new double[]{From, To};
+
+        return new Range[]{new Range(from, to)};
     }
 
     // Получение объединения двух интервалов.
-    public Range[] getArraysCombining(Range range) {
-        if (this.getTo() >= range.getFrom()) {
-            return new Range[]{new Range(this.getFrom(), range.getTo())};
+    public Range[] getUnion(Range range) {
+        if (to >= range.from) {
+            return new Range[]{new Range(from, range.to)};
         }
 
-        return new Range[]{new Range(this.getFrom(), this.getTo()), new Range(range.getFrom(), range.getTo())};
+        return new Range[]{new Range(from, to), new Range(range.from, range.to)};
     }
 
     // Получение разности двух интервалов.
-    public Range[] getArraysDifference(Range range) {
+    public Range[] getDifference(Range range) {
         // Если второй интервал расположен внутри первого -> 2 новых интервала
-        if (this.getFrom() < range.getFrom() && this.getTo() > range.getTo()) {
-            return new Range[]{new Range(this.getFrom(), range.getFrom()), new Range(range.getTo(), this.getTo())};
+        if (from < range.from && to > range.to) {
+            return new Range[]{new Range(from, range.from), new Range(range.to, to)};
         }
 
         // Если интервалы пересекаются одним концом -> 1 новый интервал
-        if (this.getFrom() < range.getFrom() && this.getTo() <= range.getTo() && this.getTo() > range.getFrom()) {
-            return new Range[]{new Range(this.getFrom(), range.getFrom())};
+        if (from < range.from && to <= range.to && to > range.from) {
+            return new Range[]{new Range(from, range.from)};
         }
 
         // Если интервалы пересекаются одним концом -> 1 новый интервал
-        if (this.getFrom() >= range.getFrom() && this.getTo() > range.getTo() && this.getFrom() < range.getTo()) {
-            return new Range[]{new Range(range.getTo(), this.getTo())};
+        if (from >= range.from && to > range.to && from < range.to) {
+            return new Range[]{new Range(range.to, to)};
         }
+
         // Если интервалы равны или первый интервал лежит внутри второго или интервалы не пересекаются -> новый интервал отсутствует
-        return null;
+        return new Range[]{};
     }
 }
