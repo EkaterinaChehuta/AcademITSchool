@@ -54,12 +54,15 @@ public class Rectangle implements Shape {
 
         Rectangle rectangle = (Rectangle) shape;
 
-        return width == rectangle.width &&
-                height == rectangle.height;
+        return width == rectangle.width && height == rectangle.height;
     }
 
     @Override
     public int hashCode() {
-        return (int) (getWidth() + getHeight());
+        final int prime = 22;
+        int hash = 1;
+        hash = prime * hash + Double.hashCode(width);
+        hash = prime * hash + Double.hashCode(height);
+        return hash;
     }
 }
