@@ -32,27 +32,48 @@ public class Range {
     public boolean isInside(double number) {
         return number >= from && number <= to;
     }
-    
+
     public String toString() {
         return "[" + from + ", " + to + "]";
     }
 
     // Получение интервала-пересечения двух интервалов.
-    public Range[] getIntersection(Range range) {
-        double from = Math.max(range.from, this.from);
-        double to = Math.min(range.to, this.to);
+    public Range getIntersection(Range range) {
+        from = Math.max(range.from, from);
+        to = Math.min(range.to, to);
 
         if (from >= to) {
             return null;
         }
 
-        return new Range[]{new Range(from, to)};
+        return new Range(from, to);
     }
 
     // Получение объединения двух интервалов.
     public Range[] getUnion(Range range) {
-        if (to >= range.from) {
-            return new Range[]{new Range(from, range.to)};
+        if (from == range.from) {
+            return new Range[]{new Range(from, Math.max(to, range.to))};
+        }
+
+        if (from < range.from) {
+            if (to >= range.from) {
+                if (to >= range.to) {
+                    return new Range[]{new Range(from, to)};
+                }
+
+                return new Range[]{new Range(from, range.to)};
+            }
+        }
+
+        if (from > range.from) {
+            if (range.to >= from) {
+                if (to <= range.to) {
+
+                    return new Range[]{new Range(range.from, range.to)};
+                }
+
+                return new Range[]{new Range(range.from, to)};
+            }
         }
 
         return new Range[]{new Range(from, to), new Range(range.from, range.to)};
@@ -60,22 +81,31 @@ public class Range {
 
     // Получение разности двух интервалов.
     public Range[] getDifference(Range range) {
-        // Если второй интервал расположен внутри первого -> 2 новых интервала
-        if (from < range.from && to > range.to) {
-            return new Range[]{new Range(from, range.from), new Range(range.to, to)};
-        }
+        if (from < range.from) {
+            if (to > range.to) {
+                return new Range[]{new Range(from, range.from), new Range(range.to, to)};
+            }
 
-        // Если интервалы пересекаются одним концом -> 1 новый интервал
-        if (from < range.from && to <= range.to && to > range.from) {
+            if (to <= range.from) {
+                return new Range[]{new Range(from, to)};
+            }
+
             return new Range[]{new Range(from, range.from)};
         }
 
-        // Если интервалы пересекаются одним концом -> 1 новый интервал
-        if (from >= range.from && to > range.to && from < range.to) {
-            return new Range[]{new Range(range.to, to)};
-        }
+        if (from >= range.from) {
+            if (to > range.to) {
+                if (range.to > from) {
+                    return new Range[]{new Range(range.to, to)};
+                }
 
-        // Если интервалы равны или первый интервал лежит внутри второго или интервалы не пересекаются -> новый интервал отсутствует
+                return new Range[]{new Range(from, to)};
+            }
+
+            if (range.to >= from) {
+                return new Range[]{new Range(range.from, from)};
+            }
+        }
         return new Range[]{};
     }
 }
