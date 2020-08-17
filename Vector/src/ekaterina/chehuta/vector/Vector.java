@@ -6,7 +6,7 @@ public class Vector {
     // Конструктор. Размерность n, все компоненты равны 0
     public Vector(int vectorSize) {
         if (vectorSize <= 0) {
-            throw new IllegalArgumentException("В качестве аргумента передано не подходящее число. Аргумент должен быть больше 0.");
+            throw new IllegalArgumentException("Передан не верный аргумент. Размер вектора должен быть больше 0.");
         }
 
         vectorComponents = new double[vectorSize];
@@ -21,10 +21,6 @@ public class Vector {
 
     // Конструктор. Заполнение вектора значениями из массив
     public Vector(double... array) {
-        if (array.length <= 0) {
-            throw new IllegalArgumentException("В качестве аргумента передано не подходящее число. Аргумент должен быть больше 0.");
-        }
-
         vectorComponents = new double[array.length];
         System.arraycopy(array, 0, vectorComponents, 0, array.length);
     }
@@ -32,11 +28,11 @@ public class Vector {
     // Конструктор. Заполнение вектора значениями из массива.
     public Vector(int vectorSize, double... array) {
         if (vectorSize <= 0) {
-            throw new IllegalArgumentException("В качестве длинны массива передано не подходящее число. Аргумент должен быть больше 0.");
+            throw new IllegalArgumentException("Передан не верный аргумент. Размер вектора должен быть больше 0.");
         }
 
         if (vectorSize < array.length) {
-            throw new IllegalArgumentException("В качестве длинны массива передано не подходящее число. Аргумент должен быть больше или равен длинне передаваемого массива.");
+            throw new IllegalArgumentException("Передан не верный аргумент. Аргумент должен быть больше или равен длинне передаваемого массива.");
         }
 
         vectorComponents = new double[vectorSize];
@@ -106,7 +102,7 @@ public class Vector {
     }
 
     // Прибавление вектара к другому вектору
-    public Vector addVector(Vector v) {
+    public void addVector(Vector v) {
         if (vectorComponents.length < v.vectorComponents.length) {
             Vector vector = new Vector(v.vectorComponents.length);
             System.arraycopy(vectorComponents, 0, vector.vectorComponents, 0, vectorComponents.length);
@@ -116,12 +112,10 @@ public class Vector {
         for (int i = 0; i < v.vectorComponents.length; i++) {
             vectorComponents[i] += v.vectorComponents[i];
         }
-
-        return this;
     }
 
     // Вычитание из вектора другого вектора
-    public Vector subtractVector(Vector v) {
+    public void subtractVector(Vector v) {
         if (vectorComponents.length < v.vectorComponents.length) {
             Vector vector = new Vector(v.vectorComponents.length);
             System.arraycopy(vectorComponents, 0, vector.vectorComponents, 0, vectorComponents.length);
@@ -131,27 +125,21 @@ public class Vector {
         for (int i = 0; i < v.vectorComponents.length; i++) {
             vectorComponents[i] -= v.vectorComponents[i];
         }
-
-        return this;
     }
 
     // Умножение вектора на скаляр
-    public Vector productVectorOnScalar(int scalar) {
+    public void productVectorOnScalar(int scalar) {
         for (int i = 0; i < vectorComponents.length; i++) {
             vectorComponents[i] = vectorComponents[i] * scalar;
         }
-
-        return this;
     }
 
     // Разворот вектора (умножение всех компонент на -1)
-    public Vector getReverseVector() {
+    public void getReverseVector() {
         int scalar = -1;
         for (int i = 0; i < vectorComponents.length; i++) {
             vectorComponents[i] *= scalar;
         }
-
-        return this;
     }
 
     // Получение длинны вектора
@@ -177,12 +165,16 @@ public class Vector {
 
     // Сложение двух векторов
     public static Vector getVectorsSum(Vector v1, Vector v2) {
-        return v1.addVector(v2);
+        Vector newVector = new Vector(v1);
+        newVector.addVector(v2);
+        return newVector;
     }
 
     // Разность двух векторов
     public static Vector getVectorsDifference(Vector v1, Vector v2) {
-        return v1.subtractVector(v2);
+        Vector newVector = new Vector(v1);
+        newVector.subtractVector(v2);
+        return newVector;
     }
 
     // Скалярное произведение двух векторов
