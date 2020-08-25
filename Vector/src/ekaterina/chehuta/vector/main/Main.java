@@ -10,8 +10,10 @@ public class Main {
         Vector vector = new Vector(3.6, 5.6);
         System.out.println(new Vector(vector)); // Копирование
         double[] array = {3, 4, 5};
+        double[] array0 ={};
         System.out.println(new Vector(array)); // Заполнение значениями из массива
-        System.out.println(new Vector(4, 3, 5, 6)); // Заполнение значениями из массива и размерностью n
+        System.out.println(new Vector(array0));
+        System.out.println(new Vector(2, 3, 5, 6)); // Заполнение значениями из массива и размерностью n
 
         System.out.println("n = " + vector.getSize()); // Размерность вектора
 
@@ -24,10 +26,10 @@ public class Main {
         vector2.subtractVector(vector3);
         System.out.println("Вычитание из вектора другого вектора: " + vector2);
 
-        vector2.productVectorOnScalar(4);
+        vector2.multiplyVectorOnScalar(4);
         System.out.println("Умножение вектора на скаляр: " + vector2);
 
-        vector2.getReverseVector();
+        vector2.deployVector();
         System.out.println("Разворот вектора (умножение всех компонент на -1): " + vector2);
 
         System.out.println("Получение длинны вектора: " + vector2.getLength());
@@ -59,5 +61,8 @@ public class Main {
 
         Vector vector9 = new Vector(2.0, 4.0, 6.0, 7);
         System.out.println(vector7.equals(vector9));
+
+        System.out.println(vector9.hashCode());
+        System.out.println("Получение длинны вектора: " + vector9.getLength());
     }
 }
