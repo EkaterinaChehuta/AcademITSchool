@@ -39,15 +39,14 @@ public class Range {
 
     // Получение интервала-пересечения двух интервалов.
     public Range getIntersection(Range range) {
-        Range newRange = new Range(from, to);
-        newRange.from = Math.max(range.from, from);
-        newRange.to = Math.min(range.to, to);
+        double newFrom = Math.max(range.from, from);
+        double newTo  = Math.min(range.to, to);
 
-        if (newRange.from >= newRange.to) {
+        if (newFrom >= newTo) {
             return null;
         }
 
-        return newRange;
+        return new Range(newFrom, newTo);
     }
 
     // Получение объединения двух интервалов.
@@ -61,7 +60,7 @@ public class Range {
 
     // Получение разности двух интервалов.
     public Range[] getDifference(Range range) {
-        if (from > range.from && from >= range.to || from < range.from && to <= range.from) {
+        if (from >= range.to || to <= range.from) {
             return new Range[]{new Range(from, to)};
         }
 
