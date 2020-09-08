@@ -10,7 +10,7 @@ public class Main {
         Vector vector = new Vector(3.6, 5.6);
         System.out.println(new Vector(vector)); // Копирование
         double[] array = {3, 4, 5};
-        double[] array0 ={};
+        double[] array0 ={1};
         System.out.println(new Vector(array)); // Заполнение значениями из массива
         System.out.println(new Vector(array0));
         System.out.println(new Vector(2, 3, 5, 6)); // Заполнение значениями из массива и размерностью n
@@ -18,18 +18,20 @@ public class Main {
         System.out.println("n = " + vector.getSize()); // Размерность вектора
 
         Vector vector1 = new Vector(2.0, 4.0, 6.0);
-        Vector vector2 = new Vector(1.0, 2, 3, 4, 5, 6);
-        vector1.addVector(vector2);
+        Vector vector2 = new Vector(1.0, 2,3,3,4);
+        vector1.add(vector2);
         System.out.println("Прибавление вектара к другому вектору: " + vector1);
+        System.out.println(vector2);
 
         Vector vector3 = new Vector(4.0, 5, 6);
-        vector2.subtractVector(vector3);
+        vector2.subtract(vector3);
         System.out.println("Вычитание из вектора другого вектора: " + vector2);
+        System.out.println(vector3);
 
-        vector2.multiplyVectorOnScalar(4);
+        vector2.multiplyOnScalar(4);
         System.out.println("Умножение вектора на скаляр: " + vector2);
 
-        vector2.deployVector();
+        vector2.reverse();
         System.out.println("Разворот вектора (умножение всех компонент на -1): " + vector2);
 
         System.out.println("Получение длинны вектора: " + vector2.getLength());
@@ -42,17 +44,17 @@ public class Main {
         Vector vector4 = new Vector(4, 3.0, 6.0);
 
         System.out.println(vector3);
-        System.out.println("Сложение двух векторов: " + Vector.getVectorsSum(vector3, vector4));
+        System.out.println("Сложение двух векторов: " + Vector.getSum(vector3, vector4));
         System.out.println(vector3);
 
-        System.out.println("Разность двух векторов: " + Vector.getVectorsDifference(vector3, vector4));
+        System.out.println("Разность двух векторов: " + Vector.getDifference(vector3, vector4));
         System.out.println(vector3);
 
         Vector vector5 = new Vector(1.0, 2, 3);
         Vector vector6 = new Vector(1.0, 2, 3, 4);
 
-        System.out.println("Скалярное произведение двух векторов: " + Vector.getVectorsScalarProduct(vector5, vector6));
-        System.out.println("Проверка. Скалярное произведение двух векторов: " + Vector.getVectorsScalarProduct(vector5, vector6));
+        System.out.println("Скалярное произведение двух векторов: " + Vector.getScalarProduct(vector5, vector6));
+        System.out.println("Проверка. Скалярное произведение двух векторов: " + Vector.getScalarProduct(vector5, vector6));
 
         Vector vector7 = new Vector(2.0, 4.0, 6.0);
         Vector vector8 = new Vector(2.0, 4.0, 6.0);

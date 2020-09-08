@@ -21,6 +21,10 @@ public class Vector {
 
     // Конструктор. Заполнение вектора значениями из массив
     public Vector(double... array) {
+        if (array.length <= 0) {
+            throw new IllegalArgumentException("Передан не верный аргумент. Размер массива должен быть больше 0.");
+        }
+
         components = Arrays.copyOf(array, array.length);
     }
 
@@ -40,10 +44,6 @@ public class Vector {
 
     @Override
     public String toString() {
-        if (components.length == 0) {
-            return "{}";
-        }
-
         StringBuilder stringBuilder = new StringBuilder("{");
 
         for (int i = 0; i < components.length - 1; i++) {
@@ -88,18 +88,18 @@ public class Vector {
     }
 
     // Прибавление вектара к другому вектору
-    public void addVector(Vector vector) {
+    public void add(Vector vector) {
         if (components.length < vector.components.length) {
             components = Arrays.copyOf(components, vector.components.length);
         }
 
-        for (int i = 0; i < components.length; i++) {
+        for (int i = 0; i < vector.components.length; i++) {
             components[i] += vector.components[i];
         }
     }
 
     // Вычитание из вектора другого вектора
-    public void subtractVector(Vector vector) {
+    public void subtract(Vector vector) {
         if (components.length < vector.components.length) {
             components = Arrays.copyOf(components, vector.components.length);
         }
@@ -110,18 +110,19 @@ public class Vector {
     }
 
     // Умножение вектора на скаляр
-    public void multiplyVectorOnScalar(int scalar) {
+    public void multiplyOnScalar(double scalar) {
         for (int i = 0; i < components.length; i++) {
-            components[i] = components[i] * scalar;
+            components[i] *= scalar;
         }
     }
 
     // Разворот вектора (умножение всех компонент на -1)
-    public void deployVector() {
-        multiplyVectorOnScalar(-1);
+    public void reverse() {
+        multiplyOnScalar(-1);
     }
 
     // Получение длинны вектора
+    // todo вычисляется не верно
     public double getLength() {
         double min = components[0];
         double max = components[0];
@@ -150,21 +151,21 @@ public class Vector {
     }
 
     // Сложение двух векторов
-    public static Vector getVectorsSum(Vector vector1, Vector vector2) {
+    public static Vector getSum(Vector vector1, Vector vector2) {
         Vector newVector = new Vector(vector1);
-        newVector.addVector(vector2);
+        newVector.add(vector2);
         return newVector;
     }
 
     // Разность двух векторов
-    public static Vector getVectorsDifference(Vector vector1, Vector vector2) {
+    public static Vector getDifference(Vector vector1, Vector vector2) {
         Vector newVector = new Vector(vector1);
-        newVector.subtractVector(vector2);
+        newVector.subtract(vector2);
         return newVector;
     }
 
     // Скалярное произведение двух векторов
-    public static double getVectorsScalarProduct(Vector vector1, Vector vector2) {
+    public static double getScalarProduct(Vector vector1, Vector vector2) {
         double scalarProduct = 0;
         int size = Math.min(vector1.components.length, vector2.components.length);
 
