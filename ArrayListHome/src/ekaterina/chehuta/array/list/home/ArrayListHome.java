@@ -7,71 +7,75 @@ import java.util.ArrayList;
 
 public class ArrayListHome {
     public static void main(String[] args) {
-        ArrayList<String> arrayList = readEndWrite("C:\\Users\\Ekaterina\\IdeaProjects\\AcademITSchool\\ArrayListHome\\src\\ekaterina\\chehuta\\array\\list\\home\\list");
-        System.out.println(arrayList);
+        ArrayList<String> stringsList = getNumbersList("C:\\Users\\Ekaterina\\IdeaProjects\\AcademITSchool\\ArrayListHome\\src\\ekaterina\\chehuta\\array\\list\\home\\list");
+        System.out.println(stringsList);
 
-        oddNumbersList(arrayList);
-        System.out.println(arrayList);
+        ArrayList<Integer> integersList = getIntegersList(stringsList);
 
-        ArrayList<String> arrayList1 = getLinkedList(arrayList);
-        System.out.println(arrayList1);
+        removesEvenIntegersFromList(integersList);
+        System.out.println(integersList);
+
+        ArrayList<Integer> newIntegersList = getUniqueIntegersList(integersList);
+        System.out.println(newIntegersList);
     }
 
-    public static ArrayList<String> readEndWrite(String fileReader) {
+    public static ArrayList<String> getNumbersList(String Url) {
         ArrayList<String> arrayList = new ArrayList<>();
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(fileReader))) {
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Url))) {
             String string;
+
             while ((string = bufferedReader.readLine()) != null) {
                 arrayList.add(string);
             }
-        } catch (IOException ignore) {
+        } catch (IOException e) {
+            throw new NumberFormatException("Список не состоит из целых чисел.");
         }
 
         return arrayList;
     }
 
-    //    Есть список из целых чисел. Удалить из него все четные числа. В
-//    этой задаче новый список создавать нельзя
-    public static void oddNumbersList(ArrayList<String> arrayList) {
-        int[] integerList = new int[arrayList.size()];
+    public static ArrayList<Integer> getIntegersList(ArrayList<String> arrayList) {
+        ArrayList<Integer> integersList = new ArrayList<>();
 
-        for (int i = 0; i < arrayList.size(); i++) {
+        for (String s : arrayList) {
             try {
-                integerList[i] = Integer.parseInt(arrayList.get(i));
-
-                if (integerList[i] % 2 == 0) {
-                    arrayList.remove(i);
-                    i--;
-                }
+                integersList.add(Integer.parseInt(s));
             } catch (NumberFormatException e) {
                 throw new NumberFormatException("Список не состоит из целых чисел.");
+            }
+        }
+
+        return integersList;
+    }
+
+    // Есть список из целых чисел. Удалить из него все четные числа. В
+    // этой задаче новый список создавать нельзя
+    public static void removesEvenIntegersFromList(ArrayList<Integer> integersList) {
+        for (int i = 0; i < integersList.size(); i++) {
+            if (integersList.get(i) % 2 == 0) {
+                integersList.remove(i);
+                i--;
             }
         }
     }
 
-    //    Надо создать новый список, в котором будут элементы первого списка
-//    в таком же порядке, но без повторений
-    public static ArrayList<String> getLinkedList(ArrayList<String> arrayList) {
-        ArrayList<String> newArrayList = new ArrayList<>(arrayList);
-        int[] integerNewList = new int[arrayList.size()];
+    // Надо создать новый список, в котором будут элементы первого списка
+    // в таком же порядке, но без повторений
+    public static ArrayList<Integer> getUniqueIntegersList(ArrayList<Integer> integersList) {
+        ArrayList<Integer> uniqueIntegersList = new ArrayList<>();
 
-        for (int i = 0; i < newArrayList.size(); i++) {
-            try {
-                integerNewList[i] = Integer.parseInt(arrayList.get(i));
-
-                for (int j = i + 1; j < newArrayList.size() - 1; j++) {
-                    integerNewList[j] = Integer.parseInt(arrayList.get(j));
-
-                    if (integerNewList[i] == integerNewList[j]) {
-                        newArrayList.remove(j);
-                        j--;
-                    }
+        e:
+        for (Integer integer : integersList) {
+            for (Integer value : uniqueIntegersList) {
+                if (integer.equals(value)) {
+                    continue e;
                 }
-            } catch (NumberFormatException e) {
-                throw new NumberFormatException("Список не состоит из целых чисел.");
             }
+
+            uniqueIntegersList.add(integer);
         }
 
-        return newArrayList;
+        return uniqueIntegersList;
     }
 }
