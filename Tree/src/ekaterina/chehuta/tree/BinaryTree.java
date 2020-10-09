@@ -1,21 +1,21 @@
 package ekaterina.chehuta.tree;
 
 import java.util.*;
+import java.util.function.Consumer;
 
-public class BinaryTree<T> {
+public class BinaryTree<T extends Comparable<T>> {
     private TreeNode<T> root;
     private int count;
 
     public BinaryTree() {
-        root = null;
     }
 
-    //    Получение числа элементов!
+    // Получение числа элементов!
     public int getCount() {
-        return this.count;
+        return count;
     }
 
-    //    Вставка!
+    // Вставка!
     public void addTreeNode(T data) {
         if (data == null) {
             throw new NullPointerException("Значение элемента null.");
@@ -30,7 +30,7 @@ public class BinaryTree<T> {
             TreeNode<T> node = root;
 
             while (true) {
-                if (data.hashCode() < node.getValue().hashCode()) {
+                if (data.compareTo(node.getValue()) < 0) {
                     if (node.getLeftChild() == null) {
                         node.setLeftChild(newTreeNode);
                         return;
@@ -49,20 +49,18 @@ public class BinaryTree<T> {
         }
     }
 
-    //    Поиск узла!
+    // Поиск узла!
     public boolean contains(T data) {
-        if (root == null) {
-            throw new NullPointerException("В дереве нет элементов.");
-        }
+        checkRoot(root);
 
         TreeNode<T> node = root;
 
-        if (data.hashCode() == node.getValue().hashCode()) {
+        if (data.compareTo(node.getValue()) == 0) {
             return true;
         }
 
-        while (data.hashCode() != node.getValue().hashCode()) {
-            if (node.getValue().hashCode() > data.hashCode()) {
+        while (data.compareTo(node.getValue()) != 0) {
+            if (node.getValue().compareTo(data) > 0) {
                 node = node.getLeftChild();
             } else {
                 node = node.getRightChild();
@@ -76,20 +74,18 @@ public class BinaryTree<T> {
         return true;
     }
 
-    //    Удаление первого вхождения узла по значению!
-    public void removeTreeNode(T data) {
-        if (root == null) {
-            throw new NullPointerException("В дереве нет элементов.");
-        }
+    // Удаление первого вхождения узла по значению!
+    public void remove(T data) {
+        checkRoot(root);
 
         TreeNode<T> node = root;
         TreeNode<T> nodeParent = node;
         boolean isLeftChild = false;
 
-        while (data.hashCode() != node.getValue().hashCode()) {
+        while (data.compareTo(node.getValue()) != 0) {
             nodeParent = node;
 
-            if (node.getValue().hashCode() > data.hashCode()) {
+            if (node.getValue().compareTo(data) > 0) {
                 node = node.getLeftChild();
                 isLeftChild = true;
             } else {
@@ -98,7 +94,7 @@ public class BinaryTree<T> {
             }
 
             if (node == null) {
-                throw new NullPointerException("В дереве нет элемента.");
+                return;
             }
         }
 
@@ -165,126 +161,85 @@ public class BinaryTree<T> {
         return successor;
     }
 
-    //    Обход в ширину!
-    public void traverseTreeInWight() {
+    // Обход в ширину!
+    public void traverseTreeInWight(Consumer<T> consumer) {
         if (root == null) {
-            throw new NullPointerException("В дереве нет элементов.");
+            return;
         }
 
         TreeNode<T> node = root;
         Queue<TreeNode<T>> queue = new LinkedList<>();
         queue.add(node);
-        System.out.println("Положили корень " + node.getValue());
 
         while (queue.size() != 0) {
             node = queue.remove();
-            System.out.println("Достали " + node.getValue());
+            consumer.accept(node.getValue());
 
             if (node.getLeftChild() != null) {
                 queue.add(node.getLeftChild());
-                System.out.printf("Положили %s левого ребенка %s%n", node.getLeftChild().getValue(), node.getValue());
             }
 
             if (node.getRightChild() != null) {
                 queue.add(node.getRightChild());
-                System.out.printf("Положили %s правого ребенка %s%n", node.getRightChild().getValue(), node.getValue());
             }
         }
     }
 
-    //    Обход в глубину без рекурсии!
-    public void traverseTreeInDepth() {
+    // Обход в глубину без рекурсии!
+    public void traverseTreeInDepth(Consumer<T> consumer) {
         if (root == null) {
-            throw new NullPointerException("В дереве нет элементов.");
+            return;
         }
 
         TreeNode<T> node = root;
         Stack<TreeNode<T>> stack = new Stack<>();
         stack.add(node);
-        System.out.println("Положили корень " + node.getValue());
 
         while (stack.size() != 0) {
             node = stack.pop();
-            System.out.println("Достали " + node.getValue());
+            consumer.accept(node.getValue());
 
             if (node.getRightChild() != null) {
                 stack.push(node.getRightChild());
-                System.out.printf("Положили %s правого ребенка %s%n", node.getRightChild().getValue(), node.getValue());
             }
 
             if (node.getLeftChild() != null) {
                 stack.push(node.getLeftChild());
-                System.out.printf("Положили %s левого ребенка %s%n", node.getLeftChild().getValue(), node.getValue());
             }
         }
     }
 
-    //    Обход в глубину с рекурсией!
-    public void recursiveTraverseTreeInDepth() {
+    // Обход в глубину с рекурсией!
+    public void recursiveTraverseTreeInDepth(Consumer<T> consumer) {
         if (root == null) {
-            throw new NullPointerException("В дереве нет элементов.");
+            return;
         }
 
         TreeNode<T> node = root;
-        System.out.println("Положили корень " + node.getValue());
-        recursive(node);
+        recursive(node, consumer);
     }
 
-    private void recursive(TreeNode<T> node) {
+    private void recursive(TreeNode<T> node, Consumer<T> consumer) {
+        consumer.accept(node.getValue());
+
         if (node.getLeftChild() != null) {
-            System.out.printf("Положили %s левого ребенка %s%n", node.getLeftChild().getValue(), node.getValue());
-            recursive(node.getLeftChild());
+            recursive(node.getLeftChild(), consumer);
         }
 
         if (node.getRightChild() != null) {
-            System.out.printf("Положили %s правого ребенка %s%n", node.getRightChild().getValue(), node.getValue());
-            recursive(node.getRightChild());
+            recursive(node.getRightChild(), consumer);
+        }
+    }
+
+    private void checkRoot(TreeNode<T> node) {
+        if (node == null) {
+            throw new NullPointerException("В дереве нет элементов.");
         }
     }
 
     @Override
     public String toString() {
-        TreeNode<T> node = root;
-        return treeToString(node);
+        traverseTreeInWight(t -> System.out.print(t + " "));
+        return "";
     }
-
-    private String treeToString(TreeNode<T> node) {
-        if (node == null) {
-            return "-";
-        }
-
-        String leftChild = treeToString(node.getLeftChild());
-        String rightChild = treeToString(node.getRightChild());
-
-        return "(" + leftChild + node.getValue() + rightChild + ")";
-    }
-
-//    public void printTree() {
-//        TreeNode<T> node = root;
-//
-//        Queue<TreeNode<T>> currentLevel = new LinkedList<>();
-//        Queue<TreeNode<T>> nextLevel = new LinkedList<>();
-//
-//        currentLevel.add(node);
-//
-//        while (!currentLevel.isEmpty()) {
-//            for (TreeNode<T> currentNode : currentLevel) {
-//                if (currentNode.getLeftChild() != null) {
-//                    nextLevel.add(currentNode.getLeftChild());
-//                }
-//
-//                if (currentNode.getRightChild() != null) {
-//                    nextLevel.add(currentNode.getRightChild());
-//                }
-//
-//                System.out.print(currentNode.getValue() + " ");
-//            }
-//
-//            System.out.println();
-//            currentLevel = nextLevel;
-//            nextLevel = new LinkedList<>();
-//
-//        }
-//
-//    }
 }

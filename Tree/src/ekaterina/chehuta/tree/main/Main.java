@@ -2,6 +2,8 @@ package ekaterina.chehuta.tree.main;
 
 import ekaterina.chehuta.tree.BinaryTree;
 
+import java.util.function.Consumer;
+
 public class Main {
     public static void main(String[] args) {
         BinaryTree<Integer> binaryTree = new BinaryTree<>();
@@ -16,18 +18,21 @@ public class Main {
         binaryTree.addTreeNode(2);
         binaryTree.addTreeNode(3);
 
-        System.out.print(binaryTree.getCount());
+        System.out.printf("(%s)",binaryTree.getCount());
         System.out.println(binaryTree);
 
         System.out.println(binaryTree.contains(7));
 
-        binaryTree.removeTreeNode(3);
-        System.out.print(binaryTree.getCount());
+        binaryTree.remove(3);
+        System.out.printf("(%s) ",binaryTree.getCount());
         System.out.println(binaryTree);
-//        binaryTree.printTree();
 
-//        binaryTree.traverseTreeInWight();
-//        binaryTree.traverseTreeInDepth();
-//        binaryTree.recursiveTraverseTreeInDepth();
+        binaryTree.traverseTreeInWight(integer -> System.out.print(integer + " "));
+        System.out.println();
+
+        binaryTree.traverseTreeInDepth(integer -> System.out.print(integer + " "));
+        System.out.println();
+
+        binaryTree.recursiveTraverseTreeInDepth(integer -> System.out.print(integer + " "));
     }
 }

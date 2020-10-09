@@ -1,14 +1,12 @@
 package ekaterina.chehuta.tree;
 
-public class TreeNode<T> {
+public class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
     private T value;
     private TreeNode<T> leftChild;
     private TreeNode<T> rightChild;
 
-    public TreeNode(T value){
+    public TreeNode(T value) {
         this.value = value;
-        this.leftChild = null;
-        this.rightChild = null;
     }
 
     public T getValue() {
@@ -33,5 +31,10 @@ public class TreeNode<T> {
 
     public void setRightChild(TreeNode<T> rightChild) {
         this.rightChild = rightChild;
+    }
+
+    @Override
+    public int compareTo(TreeNode<T> o) {
+        return value.compareTo(o.getValue());
     }
 }
