@@ -50,9 +50,10 @@ public class ArrayList<E> implements List<E> {
 
         if (a.length < size) {
             //noinspection unchecked
-            a = (T[]) new Object[size];
+            a = (T[]) Arrays.copyOf(items, size, a.getClass());
         }
 
+        //noinspection SuspiciousSystemArraycopy
         System.arraycopy(items, 0, a, 0, size); //todo a
         return a;
     }

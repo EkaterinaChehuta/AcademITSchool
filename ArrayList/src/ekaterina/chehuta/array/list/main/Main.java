@@ -7,6 +7,7 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
         ArrayList<Double> arrayList = new ArrayList<>();
+        System.out.println(arrayList);
         arrayList.add(1.0);
         arrayList.add(3.0);
         arrayList.add(5.0);
