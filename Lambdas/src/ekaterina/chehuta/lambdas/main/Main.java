@@ -4,7 +4,6 @@ import ekaterina.chehuta.lambdas.Person;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 
 public class Main {
     public static void main(String[] args) {
@@ -33,28 +32,26 @@ public class Main {
                 .filter(person -> person.getAge() < 18)
                 .collect(Collectors.toList());
 
-        OptionalDouble optionalDouble = minorsList.stream()
+        double averageAge = minorsList.stream()
                 .mapToDouble(Person::getAge)
-                .average();
+                .average()
+                .orElseThrow(() -> new NoSuchElementException("Невозможно найти средний возрост."));
 
-        double averageAge = optionalDouble.isPresent() ? optionalDouble.getAsDouble(): 0.0;
-
-        System.out.println("Список не совершеннолетних: " + minorsList);
-        System.out.println("Средний возрос: " + averageAge);
+        System.out.println("Список несовершеннолетних: " + minorsList);
+        System.out.println("Средний возрост: " + averageAge);
 
         // Г) при помощи группировки получить Map, в котором ключи – имена, а значения – средний возраст
-        Map<String, Double> mapName = list.stream()
+        Map<String, Double> averageAgesMap = list.stream()
                 .collect(Collectors.groupingBy(Person::getName, Collectors.averagingDouble(Person::getAge)));
 
-        System.out.println(mapName);
+        System.out.println(averageAgesMap);
 
         // Д) получить людей, возраст которых от 20 до 45, вывести в консоль их имена в порядке убывания возраста
-        List<Person> averageAgePersonList = list.stream()
+        List<Person> middleAgePersonsList = list.stream()
                 .filter(person -> person.getAge() >= 20 && person.getAge() <= 45)
+                .sorted(Comparator.comparing(Person::getAge).reversed())
                 .collect(Collectors.toList());
 
-        System.out.println(averageAgePersonList.stream()
-                .sorted(Comparator.comparing(Person::getAge).reversed())
-                .collect(Collectors.toList()));
+        System.out.println(middleAgePersonsList);
     }
 }
